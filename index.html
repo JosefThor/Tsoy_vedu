@@ -2,102 +2,133 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Владислав Цой — импровизационный ведущий и режиссёр событий. Свадьбы, форумы, корпоративы и фестивали федерального уровня.">
+  <meta name="theme-color" content="#090909">
+  <meta property="og:title" content="Владислав Цой • Создаю события, которые запоминаются">
+  <meta property="og:description" content="Импровизационный ведущий и режиссёр событий, которые становятся воспоминаниями.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo9.jpg">
   <title>Владислав Цой • Создаю события, которые запоминаются</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎤</text></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+    html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; }
     .heading { font-family: 'Manrope', sans-serif; }
-   .hero-bg { 
-  background: linear-gradient(180deg, rgba(9,9,9,0.85) 0%, rgba(9,9,9,0.95) 35%, 
-                             rgba(9,9,9,0.75) 65%, rgba(9,9,9,0.85) 100%), 
-              url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat; 
-}
+    section[id] { scroll-margin-top: 84px; }
+    .hero-bg {
+      background: linear-gradient(180deg, rgba(9,9,9,0.85) 0%, rgba(9,9,9,0.95) 35%,
+                                 rgba(9,9,9,0.75) 65%, rgba(9,9,9,0.85) 100%),
+                  url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+    }
     .gold { color: #C89B4A; }
+    .gold-hover:hover { color: #C89B4A; }
+    /* мобильное меню */
+    #navLinks { transition: max-height 0.35s ease; }
+    @media (max-width: 767px) {
+      #navLinks {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        max-height: 0;
+        overflow: hidden;
+        flex-direction: column;
+        background: rgba(9,9,9,0.98);
+        backdrop-filter: blur(10px);
+        gap: 0;
+      }
+      #navLinks.open { max-height: 400px; }
+      #navLinks a { padding: 1.1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
   </style>
 </head>
 <body class="bg-[#090909] text-white overflow-x-hidden">
 
   <!-- PRELOADER -->
-  <div id="preloader" class="fixed inset-0 bg-[#090909] z-[9999] flex items-center justify-center">
+  <div id="preloader" class="fixed inset-0 bg-[#090909] z-[9999] flex items-center justify-center px-6">
     <div class="text-center">
-      <h1 class="heading text-8xl font-black tracking-tighter gold">ВЛАДИСЛАВ</h1>
-      <p class="text-3xl text-[#B9B9B9] mt-4">ЦОЙ</p>
-      <div class="w-48 h-0.5 bg-[#C89B4A] mx-auto mt-12"></div>
-      <p class="mt-6 text-lg">Импровизационный ведущий</p>
-      <p class="mt-2 text-sm text-[#C89B4A]">Создаю события, которые запоминаются</p>
+      <h1 class="heading text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter gold break-words">ВЛАДИСЛАВ</h1>
+      <p class="text-lg sm:text-2xl md:text-3xl text-[#B9B9B9] mt-2 sm:mt-4">ЦОЙ</p>
+      <div class="w-32 sm:w-48 h-0.5 bg-[#C89B4A] mx-auto mt-6 sm:mt-12"></div>
+      <p class="mt-4 sm:mt-6 text-sm sm:text-lg">Импровизационный ведущий</p>
+      <p class="mt-2 text-xs sm:text-sm text-[#C89B4A]">Создаю события, которые запоминаются</p>
     </div>
   </div>
 
   <!-- MENU -->
   <nav class="fixed top-0 left-0 right-0 z-50 bg-[#090909]/90 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-      <h1 class="heading text-2xl font-bold tracking-tighter">Владислав Цой</h1>
-      <div class="flex gap-10 text-sm font-medium">
-        <a href="#about" onclick="scrollToSection(event)" class="hover:gold transition">Обо мне</a>
-        <a href="#projects" onclick="scrollToSection(event)" class="hover:gold transition">Проекты</a>
-        <!-- <a href="#video" onclick="scrollToSection(event)" class="hover:gold transition">Видео</a> -->
-        <a href="#gallery" onclick="scrollToSection(event)" class="hover:gold transition">Галерея</a>
-        <a href="#contacts" onclick="scrollToSection(event)" class="hover:gold transition">Контакты</a>
+      <h1 class="heading text-xl md:text-2xl font-bold tracking-tighter">Владислав Цой</h1>
+      <div id="navLinks" class="flex gap-10 text-sm font-medium">
+        <a href="#about" onclick="scrollToSection(event)" class="gold-hover transition">Обо мне</a>
+        <a href="#projects" onclick="scrollToSection(event)" class="gold-hover transition">Проекты</a>
+        <!-- <a href="#video" onclick="scrollToSection(event)" class="gold-hover transition">Видео</a> -->
+        <a href="#gallery" onclick="scrollToSection(event)" class="gold-hover transition">Галерея</a>
+        <a href="#contacts" onclick="scrollToSection(event)" class="gold-hover transition">Контакты</a>
       </div>
+      <button id="navToggle" onclick="toggleMenu()" class="md:hidden text-2xl w-10 h-10 flex items-center justify-center" aria-label="Открыть меню" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="min-h-screen relative flex items-center justify-center">
-    <video id="heroVideo" autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
-      <source src="https://assets.mixkit.co/videos/preview/123/123.mp4" type="video/mp4">
-    </video>
+  <section id="hero" class="min-h-[100svh] relative flex items-center justify-center">
+    <div class="hero-bg absolute inset-0 w-full h-full"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#090909]"></div>
-    <div class="relative z-10 text-center px-6 pt-20">
-      <h1 class="heading text-7xl md:text-8xl font-black tracking-tighter gold">ВЛАДИСЛАВ ЦОЙ</h1>
-      <p class="text-3xl md:text-4xl font-light mt-4">Импровизационный ведущий</p>
-      <p class="text-2xl text-[#B9B9B9] mt-2">Режиссёр событий, которые становятся воспоминаниями</p>
-      <div class="mt-16 flex flex-col md:flex-row gap-6 justify-center">
-        <a href="#contact" class="px-10 py-5 bg-white text-black font-semibold rounded-2xl hover:bg-[#C89B4A] hover:text-white transition text-lg">Расскажите о своём событии</a>
-        <!-- <a href="#video" class="px-10 py-5 border border-white/70 hover:border-[#C89B4A] transition text-lg">Смотреть видео</a> -->
+    <div class="relative z-10 text-center px-6 pt-24">
+      <h1 class="heading text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter gold break-words">ВЛАДИСЛАВ ЦОЙ</h1>
+      <p class="text-lg sm:text-2xl md:text-4xl font-light mt-4">Импровизационный ведущий</p>
+      <p class="text-base sm:text-xl md:text-2xl text-[#B9B9B9] mt-2 max-w-xl mx-auto">Режиссёр событий, которые становятся воспоминаниями</p>
+      <div class="mt-10 md:mt-16 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+        <a href="#contacts" onclick="scrollToSection(event)" class="px-8 sm:px-10 py-4 sm:py-5 bg-white text-black font-semibold rounded-2xl hover:bg-[#C89B4A] hover:text-white transition text-base sm:text-lg">Расскажите о своём событии</a>
       </div>
     </div>
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-[#C89B4A]">
-      <span class="text-sm tracking-[4px]">ЛИСТАЙТЕ</span>
-      <i class="fas fa-chevron-down mt-4 animate-bounce text-2xl"></i>
+    <div class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-[#C89B4A]">
+      <span class="text-xs sm:text-sm tracking-[4px]">ЛИСТАЙТЕ</span>
+      <i class="fas fa-chevron-down mt-3 sm:mt-4 animate-bounce text-xl sm:text-2xl"></i>
     </div>
   </section>
 
   <!-- НЕ ПРОВОЖУ / СОЗДАЮ -->
-  <section class="py-32 bg-[#090909]">
+  <section class="py-16 sm:py-24 md:py-32 bg-[#090909]">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      <div class="text-[#C89B4A] text-7xl font-black tracking-tighter mb-8">НЕ ПРОВОЖУ МЕРОПРИЯТИЯ</div>
-      <div class="text-6xl font-black tracking-tighter text-white">СОЗДАЮ СОБЫТИЯ</div>
-      <p class="text-2xl text-[#B9B9B9] mt-12 max-w-xl mx-auto">Я создаю эмоции, которые гости будут вспоминать годами.</p>
+      <div class="text-[#C89B4A] text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-4 sm:mb-8 break-words">НЕ ПРОВОЖУ МЕРОПРИЯТИЯ</div>
+      <div class="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-white break-words">СОЗДАЮ СОБЫТИЯ</div>
+      <p class="text-base sm:text-xl md:text-2xl text-[#B9B9B9] mt-6 sm:mt-12 max-w-xl mx-auto">Я создаю эмоции, которые гости будут вспоминать годами.</p>
     </div>
   </section>
 
   <!-- PREIMUSHESTVA -->
-  <section class="py-24 bg-black">
+  <section id="about" class="py-16 sm:py-24 bg-black">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="heading text-5xl font-bold text-center mb-16">Почему выбирают меня</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-zinc-900 p-10 rounded-3xl">
-          <div class="text-5xl mb-6">🎭</div>
-          <h3 class="text-2xl font-semibold">Актер театра</h3>
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Почему выбирают меня</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
+          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">🎭</div>
+          <h3 class="text-xl sm:text-2xl font-semibold">Актер театра</h3>
           <p class="text-[#C89B4A]">Государственный музыкальный театр «Забайкальские узоры»</p>
         </div>
-        <div class="bg-zinc-900 p-10 rounded-3xl">
-          <div class="text-5xl mb-6">🎤</div>
-          <h3 class="text-2xl font-semibold">Импровизация</h3>
+        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
+          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">🎤</div>
+          <h3 class="text-xl sm:text-2xl font-semibold">Импровизация</h3>
           <p>Более 10 лет живого общения без шаблонов</p>
         </div>
-        <div class="bg-zinc-900 p-10 rounded-3xl">
-          <div class="text-5xl mb-6">🎬</div>
-          <h3 class="text-2xl font-semibold">Режиссура</h3>
+        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
+          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">🎬</div>
+          <h3 class="text-xl sm:text-2xl font-semibold">Режиссура</h3>
           <p>От идеи до финального аккорда</p>
         </div>
-        <div class="bg-zinc-900 p-10 rounded-3xl">
-          <div class="text-5xl mb-6">📹</div>
-          <h3 class="text-2xl font-semibold">Медиаконтент</h3>
+        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
+          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">📹</div>
+          <h3 class="text-xl sm:text-2xl font-semibold">Медиаконтент</h3>
           <p>Самостоятельно создаю визуальный контент федерального уровня</p>
         </div>
       </div>
@@ -105,22 +136,20 @@
   </section>
 
   <!-- EDUCATION TIMELINE -->
-  <section class="py-24 bg-[#090909]">
+  <section class="py-16 sm:py-24 bg-[#090909]">
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="heading text-5xl font-bold text-center mb-16">Образование</h2>
-      <div class="space-y-16">
-        <div class="flex gap-8">
-          <div class="w-20 text-right text-sm text-[#C89B4A]"></div>
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Образование</h2>
+      <div class="space-y-10 sm:space-y-16">
+        <div class="flex gap-4 sm:gap-8 border-l-2 border-[#C89B4A]/40 pl-4 sm:border-0 sm:pl-0">
           <div>
-            <h3 class="text-2xl">Забайкальское краевое училище культуры</h3>
-            <p class="text-[#B9B9B9]">Народное художественное творчество • Театральное творчество</p>
+            <h3 class="text-lg sm:text-2xl">Забайкальское краевое училище культуры</h3>
+            <p class="text-sm sm:text-base text-[#B9B9B9]">Народное художественное творчество • Театральное творчество</p>
           </div>
         </div>
-        <div class="flex gap-8">
-          <div class="w-20 text-right text-sm text-[#C89B4A]"></div>
+        <div class="flex gap-4 sm:gap-8 border-l-2 border-[#C89B4A]/40 pl-4 sm:border-0 sm:pl-0">
           <div>
-            <h3 class="text-2xl">Восточно-Сибирский государственный институт культуры и искусств</h3>
-            <p class="text-[#B9B9B9]">Режиссура театрализованных представлений и праздников</p>
+            <h3 class="text-lg sm:text-2xl">Восточно-Сибирский государственный институт культуры и искусств</h3>
+            <p class="text-sm sm:text-base text-[#B9B9B9]">Режиссура театрализованных представлений и праздников</p>
           </div>
         </div>
       </div>
@@ -128,113 +157,121 @@
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects" class="py-24 bg-black">
+  <section id="projects" class="py-16 sm:py-24 bg-black">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="heading text-5xl font-bold text-center mb-16">Мои проекты</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Мои проекты</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
         <div class="group cursor-pointer" onclick="openProjectModal(0)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo9.jpg" class="w-full rounded-3xl">
-          <div class="mt-6">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo9.jpg" alt="Восточно-экономический форум, Владивосток" loading="lazy" class="w-full rounded-3xl">
+          <div class="mt-4 sm:mt-6">
             <div class="text-[#C89B4A] text-sm">ВЭФ</div>
-            <h3 class="text-4xl font-semibold">Восточно-экономический форум</h3>
+            <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Восточно-экономический форум</h3>
             <p class="text-[#B9B9B9]">Владивосток</p>
           </div>
         </div>
         <div class="group cursor-pointer" onclick="openProjectModal(1)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo10.jpg" class="w-full rounded-3xl">
-          <div class="mt-6">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo10.jpg" alt="Международная выставка-форум «Россия»" loading="lazy" class="w-full rounded-3xl">
+          <div class="mt-4 sm:mt-6">
             <div class="text-[#C89B4A] text-sm">Российский проект</div>
-            <h3 class="text-4xl font-semibold">Международная выставка-форум</h3>
+            <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Международная выставка-форум</h3>
             <p class="text-[#B9B9B9]">«Россия»</p>
           </div>
         </div>
         <div class="group cursor-pointer" onclick="openProjectModal(2)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo11.jpg" class="w-full rounded-3xl">
-          <div class="mt-6">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo11.jpg" alt="День металлурга, «Удоканская медь»" loading="lazy" class="w-full rounded-3xl">
+          <div class="mt-4 sm:mt-6">
             <div class="text-[#C89B4A] text-sm">День металлурга</div>
-            <h3 class="text-4xl font-semibold">«Удоканская медь»</h3>
+            <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">«Удоканская медь»</h3>
           </div>
         </div>
         <div class="group cursor-pointer" onclick="openProjectModal(3)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo12.jpg" class="w-full rounded-3xl">
-          <div class="mt-6">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo12.jpg" alt="Забайкальский международный кинофестиваль" loading="lazy" class="w-full rounded-3xl">
+          <div class="mt-4 sm:mt-6">
             <div class="text-[#C89B4A] text-sm">Культурный проект</div>
-            <h3 class="text-4xl font-semibold">Забайкальский международный кинофестиваль</h3>
+            <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Забайкальский международный кинофестиваль</h3>
           </div>
         </div>
       </div>
     </div>
   </section>
   <!-- НОВЫЙ БЛОК ПРОЕКТОВ (только текст) -->
-<section id="projects-text" class="py-24 bg-[#090909]">
-  <div class="max-w-4xl mx-auto px-6">
-    <h2 class="heading text-5xl font-bold text-center mb-16">Проекты</h2>
-    
+<section id="projects-text" class="py-16 sm:py-24 bg-[#090909]">
+  <div class="max-w-4xl mx-auto px-6 space-y-8 sm:space-y-12">
+    <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-2">Проекты</h2>
+
      <div>
         <div class="text-[#C89B4A] text-sm font-medium tracking-widest mb-3">2021–2025</div>
-        <h3 class="heading text-4xl font-bold mb-4">Международный фестиваль «Люди и Солнце»</h3>
-        <p class="text-xl text-[#B9B9B9] leading-relaxed">Международный фестиваль</p>
+        <h3 class="heading text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4">Международный фестиваль «Люди и Солнце»</h3>
+        <p class="text-sm sm:text-base md:text-xl text-[#B9B9B9] leading-relaxed">Международный фестиваль</p>
       </div>
 
       <!-- 4 -->
       <div>
         <div class="text-[#C89B4A] text-sm font-medium tracking-widest mb-3">2013-2025</div>
-        <h3 class="heading text-4xl font-bold mb-4">Международный фестиваль детского и юношеских творческих коллективов «Гуранёнок»</h3>
-        <p class="text-xl text-[#B9B9B9] leading-relaxed">Фестиваль</p>
+        <h3 class="heading text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4">Международный фестиваль детского и юношеских творческих коллективов «Гуранёнок»</h3>
+        <p class="text-sm sm:text-base md:text-xl text-[#B9B9B9] leading-relaxed">Фестиваль</p>
       </div>
 
       <!-- 6 -->
       <div>
         <div class="text-[#C89B4A] text-sm font-medium tracking-widest mb-3">2016–2025</div>
-        <h3 class="heading text-4xl font-bold mb-4">Международный конкурс эстрадного и джазового исполнительства «Голос Забайкалья»</h3>
-        <p class="text-xl text-[#B9B9B9] leading-relaxed">Чита</p>
+        <h3 class="heading text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4">Международный конкурс эстрадного и джазового исполнительства «Голос Забайкалья»</h3>
+        <p class="text-sm sm:text-base md:text-xl text-[#B9B9B9] leading-relaxed">Чита</p>
       </div>
 
       <!-- 7 -->
       <div>
         <div class="text-[#C89B4A] text-sm font-medium tracking-widest mb-3">2024-2026</div>
-        <h3 class="heading text-4xl font-bold mb-4">Мероприятия для компании «Удоканская медь»</h3>
-        <p class="text-xl text-[#B9B9B9] leading-relaxed">Корпоративные проекты, Забайкальский край</p>
+        <h3 class="heading text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4">Мероприятия для компании «Удоканская медь»</h3>
+        <p class="text-sm sm:text-base md:text-xl text-[#B9B9B9] leading-relaxed">Корпоративные проекты, Забайкальский край</p>
       </div>
 
       <!-- 8 -->
       <div>
         <div class="text-[#C89B4A] text-sm font-medium tracking-widest mb-3">2026</div>
-        <h3 class="heading text-4xl font-bold mb-4">Забайкальский детский культурный форум «Во имя Завтра»</h3>
-        <p class="text-xl text-[#B9B9B9] leading-relaxed">Чита • Детский культурный форум</p>
+        <h3 class="heading text-xl sm:text-2xl md:text-4xl font-bold mb-3 sm:mb-4">Забайкальский детский культурный форум «Во имя Завтра»</h3>
+        <p class="text-sm sm:text-base md:text-xl text-[#B9B9B9] leading-relaxed">Чита • Детский культурный форум</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ГАЛЕРЕЯ -->
-<section id="gallery" class="py-24 bg-[#090909]">
+<section id="gallery" class="py-16 sm:py-24 bg-[#090909]">
   <div class="max-w-7xl mx-auto px-6">
-    <h2 class="heading text-5xl font-bold text-center mb-16">Галерея</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo1.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+    <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Галерея</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo1.jpg"
+           alt="Фото с мероприятия 1" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(0)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo2.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo2.jpg"
+           alt="Фото с мероприятия 2" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(1)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo3.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo3.jpg"
+           alt="Фото с мероприятия 3" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(2)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo4.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo4.jpg"
+           alt="Фото с мероприятия 4" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(3)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo5.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo5.jpg"
+           alt="Фото с мероприятия 5" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(4)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo6.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo6.jpg"
+           alt="Фото с мероприятия 6" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(5)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo7.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo7.jpg"
+           alt="Фото с мероприятия 7" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(6)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo8.jpg" 
-           class="rounded-3xl cursor-pointer hover:scale-105 transition" 
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo8.jpg"
+           alt="Фото с мероприятия 8" loading="lazy"
+           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
            onclick="openGalleryModal(7)">
     </div>
   </div>
@@ -251,27 +288,27 @@
   </section>
 
   <!-- ОТЗЫВЫ -->
-  <section class="py-24 bg-[#090909]">
+  <section class="py-16 sm:py-24 bg-[#090909]">
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="heading text-5xl font-bold text-center mb-16">Отзывы</h2>
-      <div class="space-y-12">
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Отзывы</h2>
+      <div class="space-y-8 sm:space-y-12">
         <div>
-          <p class="text-4xl leading-tight">"Мы даже не заметили, как прошло пять часов."</p>
-          <p class="mt-8 text-[#C89B4A]">— Организатор свадьбы, Москва</p>
+          <p class="text-xl sm:text-2xl md:text-4xl leading-snug sm:leading-tight">«Мы даже не заметили, как прошло пять часов.»</p>
+          <p class="mt-4 sm:mt-8 text-[#C89B4A]">— Организатор свадьбы, Москва</p>
         </div>
         <div>
-          <p class="text-4xl leading-tight">"Гости спрашивали, где мы нашли такого ведущего."</p>
-          <p class="mt-8 text-[#C89B4A]">— Организатор фестиваля, Владивосток</p>
+          <p class="text-xl sm:text-2xl md:text-4xl leading-snug sm:leading-tight">«Гости спрашивали, где мы нашли такого ведущего.»</p>
+          <p class="mt-4 sm:mt-8 text-[#C89B4A]">— Организатор фестиваля, Владивосток</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ФОРМАТЫ + ЗАКЛЮЧЕНИЕ -->
-  <section class="py-24 bg-black">
+  <section class="py-16 sm:py-24 bg-black">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="heading text-5xl font-bold mb-12">Форматы мероприятий</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold mb-10 sm:mb-12">Форматы мероприятий</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 text-left text-sm sm:text-base">
         <div>🎊 Свадьбы и юбилеи</div>
         <div>🎤 Корпоративы и форумы</div>
         <div>🎓 Государственные мероприятия</div>
@@ -279,27 +316,27 @@
         <div>🎭 Фестивали и церемонии</div>
         <div>📹 Премии и благотворительные акции</div>
       </div>
-      <a href="#contact" class="mt-16 inline-block px-12 py-6 bg-[#C89B4A] text-black text-xl font-semibold rounded-2xl hover:bg-amber-300 transition">Ваше событие начинается с первого разговора</a>
+      <a href="#contacts" onclick="scrollToSection(event)" class="mt-10 sm:mt-16 inline-block px-8 sm:px-12 py-4 sm:py-6 bg-[#C89B4A] text-black text-base sm:text-xl font-semibold rounded-2xl hover:bg-amber-300 transition">Ваше событие начинается с первого разговора</a>
     </div>
   </section>
 
   <!-- CONTACTS -->
-  <section id="contacts" class="py-24 bg-[#090909]">
+  <section id="contacts" class="py-16 sm:py-24 bg-[#090909]">
     <div class="max-w-2xl mx-auto px-6 text-center">
-      <h2 class="heading text-5xl font-bold mb-12">Связаться</h2>
-      <div class="flex flex-col gap-8">
-        <a href="tel:+79962801250" class="flex items-center justify-center gap-6 text-3xl hover:text-[#C89B4A] transition">
-          <i class="fas fa-phone text-5xl"></i>
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12">Связаться</h2>
+      <div class="flex flex-col gap-6 sm:gap-8">
+        <a href="tel:+79962801250" class="flex items-center justify-center gap-4 sm:gap-6 text-lg sm:text-2xl md:text-3xl hover:text-[#C89B4A] transition">
+          <i class="fas fa-phone text-2xl sm:text-4xl md:text-5xl"></i>
           <span>+7 (996) 280-12-50</span>
         </a>
-        <a href="mailto:josoef-thor@ya.ru" class="flex items-center justify-center gap-6 text-3xl hover:text-[#C89B4A] transition">
-          <i class="fas fa-envelope text-5xl"></i>
+        <a href="mailto:josoef-thor@ya.ru" class="flex items-center justify-center gap-4 sm:gap-6 text-lg sm:text-2xl md:text-3xl hover:text-[#C89B4A] transition break-all sm:break-normal">
+          <i class="fas fa-envelope text-2xl sm:text-4xl md:text-5xl"></i>
           <span>josoef-thor@ya.ru</span>
         </a>
-        <div class="flex justify-center gap-12 text-4xl mt-12">
-          <a href="https://t.me/ваш_ник" target="_blank"><i class="fab fa-telegram"></i></a>
-          <a href="https://vk.com/ваш_профиль" target="_blank"><i class="fab fa-vk"></i></a>
-          <a href="https://wa.me/79962801250" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <div class="flex justify-center gap-8 sm:gap-12 text-3xl sm:text-4xl mt-8 sm:mt-12">
+          <a href="https://max.ru/u/f9LHodD0cOKZNBYb6C-Kw8FCYyU_z-gVoROVk88AIc-MSwJ8PGdmxF7IKd4" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+          <a href="https://vk.com/josefthor" target="_blank" rel="noopener" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
+          <a href="https://wa.me/79962801250" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
     </div>
@@ -311,18 +348,34 @@
   </footer>
 
   <!-- PROJECT MODAL -->
-  <div id="projectModal" class="hidden fixed inset-0 bg-black/90 z-[999] flex items-center justify-center">
-    <div class="bg-[#090909] p-10 rounded-3xl max-w-2xl">
-      <button onclick="closeModals()" class="absolute top-6 right-6 text-4xl">✕</button>
+  <div id="projectModal" class="hidden fixed inset-0 bg-black/90 z-[999] flex items-center justify-center p-4" onclick="if(event.target===this) closeModals()">
+    <div class="relative bg-[#090909] p-6 sm:p-10 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <button onclick="closeModals()" aria-label="Закрыть" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-2xl sm:text-4xl leading-none">✕</button>
       <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- GALLERY MODAL -->
+  <div id="galleryModal" class="hidden fixed inset-0 bg-black/95 z-[999] flex items-center justify-center p-4" onclick="if(event.target===this) closeModals()">
+    <div class="relative w-full max-w-4xl max-h-[90vh] flex items-center justify-center">
+      <button onclick="closeModals()" aria-label="Закрыть" class="absolute -top-2 right-0 sm:top-0 sm:right-0 text-3xl sm:text-4xl text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center">✕</button>
+      <button onclick="changeGalleryImage(-1)" aria-label="Предыдущее фото" class="absolute left-0 sm:-left-16 text-2xl sm:text-4xl text-white bg-black/50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <img id="galleryModalImg" src="" alt="Фото из галереи" class="max-h-[85vh] max-w-full rounded-2xl object-contain">
+      <button onclick="changeGalleryImage(1)" aria-label="Следующее фото" class="absolute right-0 sm:-right-16 text-2xl sm:text-4xl text-white bg-black/50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
+        <i class="fas fa-chevron-right"></i>
+      </button>
     </div>
   </div>
 
   <script>
     function scrollToSection(e) {
       e.preventDefault();
-      const id = e.target.getAttribute('href').slice(1);
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      const id = e.currentTarget.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      closeMenu();
     }
 
     window.addEventListener('load', () => {
@@ -332,20 +385,70 @@
       }, 1200);
     });
 
+    // --- мобильное меню ---
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('navToggle');
+      const isOpen = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.innerHTML = isOpen ? '<i class="fas fa-xmark"></i>' : '<i class="fas fa-bars"></i>';
+    }
+    function closeMenu() {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('navToggle');
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+
+    // --- модалка проектов ---
     function openProjectModal(n) {
       const content = {
-        0: `<h3 class="text-4xl font-bold mb-4">Восточно-экономический форум</h3><p class="text-[#B9B9B9]">Владивосток — международный уровень</p><img src="https://picsum.photos/id/1015/800/600" class="mt-8 rounded-2xl">`,
-        1: `<h3 class="text-4xl font-bold mb-4">Международная выставка-форум «Россия»</h3><p class="text-[#B9B9B9]">Федеральный проект</p><img src="https://picsum.photos/id/201/800/600" class="mt-8 rounded-2xl">`,
-        2: `<h3 class="text-4xl font-bold mb-4">«Удоканская медь»</h3><p class="text-[#B9B9B9]">Корпоративный проект</p><img src="https://picsum.photos/id/237/800/600" class="mt-8 rounded-2xl">`,
-        3: `<h3 class="text-4xl font-bold mb-4">Забайкальский международный кинофестиваль</h3><p class="text-[#B9B9B9]">Культурный форум</p><img src="https://picsum.photos/id/29/800/600" class="mt-8 rounded-2xl">`
+        0: `<h3 class="text-2xl sm:text-4xl font-bold mb-4">Восточно-экономический форум</h3><p class="text-[#B9B9B9]">Владивосток — международный уровень</p><img src="https://picsum.photos/id/1015/800/600" alt="Восточно-экономический форум" class="mt-8 rounded-2xl w-full">`,
+        1: `<h3 class="text-2xl sm:text-4xl font-bold mb-4">Международная выставка-форум «Россия»</h3><p class="text-[#B9B9B9]">Федеральный проект</p><img src="https://picsum.photos/id/201/800/600" alt="Международная выставка-форум «Россия»" class="mt-8 rounded-2xl w-full">`,
+        2: `<h3 class="text-2xl sm:text-4xl font-bold mb-4">«Удоканская медь»</h3><p class="text-[#B9B9B9]">Корпоративный проект</p><img src="https://picsum.photos/id/237/800/600" alt="«Удоканская медь»" class="mt-8 rounded-2xl w-full">`,
+        3: `<h3 class="text-2xl sm:text-4xl font-bold mb-4">Забайкальский международный кинофестиваль</h3><p class="text-[#B9B9B9]">Культурный форум</p><img src="https://picsum.photos/id/29/800/600" alt="Забайкальский международный кинофестиваль" class="mt-8 rounded-2xl w-full">`
       }[n];
       document.getElementById('modalContent').innerHTML = content;
       document.getElementById('projectModal').classList.remove('hidden');
     }
 
+    // --- модалка галереи ---
+    const galleryImages = [
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo1.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo2.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo3.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo4.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo5.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo6.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo7.jpg',
+      'https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo8.jpg'
+    ];
+    let currentGalleryIndex = 0;
+
+    function openGalleryModal(n) {
+      currentGalleryIndex = n;
+      document.getElementById('galleryModalImg').src = galleryImages[currentGalleryIndex];
+      document.getElementById('galleryModal').classList.remove('hidden');
+    }
+
+    function changeGalleryImage(dir) {
+      currentGalleryIndex = (currentGalleryIndex + dir + galleryImages.length) % galleryImages.length;
+      document.getElementById('galleryModalImg').src = galleryImages[currentGalleryIndex];
+    }
+
     function closeModals() {
       document.getElementById('projectModal').classList.add('hidden');
+      document.getElementById('galleryModal').classList.add('hidden');
     }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModals();
+      if (!document.getElementById('galleryModal').classList.contains('hidden')) {
+        if (e.key === 'ArrowRight') changeGalleryImage(1);
+        if (e.key === 'ArrowLeft') changeGalleryImage(-1);
+      }
+    });
   </script>
 </body>
 </html>
