@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo9.jpg">
   <title>Владислав Цой • Создаю события, которые запоминаются</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎤</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23090909' stroke='%23C89B4A' stroke-width='4'/%3E%3Ctext x='50' y='64' font-family='Georgia,serif' font-size='42' fill='%23C89B4A' text-anchor='middle'%3EВЦ%3C/text%3E%3C/svg%3E">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -44,6 +44,76 @@
       #navLinks.open { max-height: 400px; }
       #navLinks a { padding: 1.1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
     }
+
+    /* ---------- ШТОРКА (прелоадер) ---------- */
+    .curtain-panel { position: fixed; top: 0; width: 50%; height: 100%; background: #090909; z-index: 9998; transition: transform 1s cubic-bezier(.76,0,.24,1); }
+    #curtainLeft { left: 0; }
+    #curtainRight { right: 0; border-left: 1px solid rgba(200,155,74,0.25); }
+    #preloaderContent { transition: opacity .5s ease, transform .5s ease; }
+
+    /* ---------- СВЕЧЕНИЕ КУРСОРА В HERO ---------- */
+    #heroSpotlight {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background: radial-gradient(520px circle at var(--x,50%) var(--y,30%), rgba(200,155,74,0.20), transparent 60%);
+    }
+
+    /* ---------- ЛЕТАЮЩИЕ ЧАСТИЦЫ ---------- */
+    .particle {
+      position: absolute; bottom: -20px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,155,74,0.95), rgba(200,155,74,0));
+      pointer-events: none; opacity: 0;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      12%  { opacity: .9; }
+      85%  { opacity: .5; }
+      100% { transform: translateY(-115vh) translateX(var(--drift, 30px)); opacity: 0; }
+    }
+
+    /* ---------- ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ---------- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ---------- ИКОНКИ-БЕЙДЖИ ---------- */
+    .icon-badge {
+      width: 3.5rem; height: 3.5rem; border-radius: 9999px;
+      border: 1.5px solid rgba(200,155,74,0.55);
+      display: flex; align-items: center; justify-content: center;
+      color: #C89B4A; font-size: 1.35rem; flex-shrink: 0;
+      background: radial-gradient(circle at 30% 25%, rgba(200,155,74,0.14), transparent 70%);
+    }
+
+    /* ---------- НАКЛОН КАРТОЧЕК ---------- */
+    .tilt-card { transition: transform .25s ease, box-shadow .3s ease, border-color .3s ease; will-change: transform; }
+    .tilt-card:hover { box-shadow: 0 24px 60px -24px rgba(200,155,74,0.4); }
+
+    /* ---------- ЛИНИЯ ОБРАЗОВАНИЯ ---------- */
+    .timeline-line { position: absolute; left: 0; top: 0.6rem; bottom: 0; width: 2px; background: rgba(200,155,74,0.25); }
+    .timeline-dot { position: absolute; left: -5px; top: 0.35rem; width: 12px; height: 12px; border-radius: 50%; background: #090909; border: 2px solid #C89B4A; transform: scale(0); transition: transform .4s ease; }
+    .reveal.visible .timeline-dot { transform: scale(1); }
+
+    /* ---------- БЕГУЩАЯ СТРОКА ---------- */
+    .marquee-wrap { overflow: hidden; }
+    .marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ---------- ГАЛЕРЕЯ-КАРУСЕЛЬ ---------- */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .gallery-track { -webkit-mask-image: linear-gradient(90deg, transparent, black 3%, black 97%, transparent); mask-image: linear-gradient(90deg, transparent, black 3%, black 97%, transparent); }
+    .gallery-item { scroll-snap-align: center; }
+
+    /* ---------- СЛАЙДЕР ОТЗЫВОВ ---------- */
+    .testi-slide { display: none; }
+    .testi-slide.active { display: block; animation: testiIn .6s ease; }
+    @keyframes testiIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(200,155,74,0.35); transition: background .3s ease, transform .3s ease; }
+    .testi-dot.active { background: #C89B4A; transform: scale(1.3); }
+
+    /* ---------- СЧЁТЧИКИ ---------- */
+    .stat-num { font-variant-numeric: tabular-nums; }
+
     @media (prefers-reduced-motion: reduce) {
       * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
@@ -51,14 +121,18 @@
 </head>
 <body class="bg-[#090909] text-white overflow-x-hidden">
 
-  <!-- PRELOADER -->
-  <div id="preloader" class="fixed inset-0 bg-[#090909] z-[9999] flex items-center justify-center px-6">
-    <div class="text-center">
-      <h1 class="heading text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter gold break-words">ВЛАДИСЛАВ</h1>
-      <p class="text-lg sm:text-2xl md:text-3xl text-[#B9B9B9] mt-2 sm:mt-4">ЦОЙ</p>
-      <div class="w-32 sm:w-48 h-0.5 bg-[#C89B4A] mx-auto mt-6 sm:mt-12"></div>
-      <p class="mt-4 sm:mt-6 text-sm sm:text-lg">Импровизационный ведущий</p>
-      <p class="mt-2 text-xs sm:text-sm text-[#C89B4A]">Создаю события, которые запоминаются</p>
+  <!-- PRELOADER: ЗАНАВЕС -->
+  <div id="preloader" class="fixed inset-0 z-[9999]">
+    <div id="curtainLeft" class="curtain-panel" style="left:0;"></div>
+    <div id="curtainRight" class="curtain-panel" style="right:0;"></div>
+    <div id="preloaderContent" class="fixed inset-0 z-[9999] flex items-center justify-center px-6">
+      <div class="text-center">
+        <h1 class="heading text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter gold break-words">ВЛАДИСЛАВ</h1>
+        <p class="text-lg sm:text-2xl md:text-3xl text-[#B9B9B9] mt-2 sm:mt-4">ЦОЙ</p>
+        <div class="w-32 sm:w-48 h-0.5 bg-[#C89B4A] mx-auto mt-6 sm:mt-12"></div>
+        <p class="mt-4 sm:mt-6 text-sm sm:text-lg">Импровизационный ведущий</p>
+        <p class="mt-2 text-xs sm:text-sm text-[#C89B4A]">Создаю события, которые запоминаются</p>
+      </div>
     </div>
   </div>
 
@@ -80,8 +154,10 @@
   </nav>
 
   <!-- HERO -->
-  <section id="hero" class="min-h-[100svh] relative flex items-center justify-center">
+  <section id="hero" class="min-h-[100svh] relative flex items-center justify-center overflow-hidden">
     <div class="hero-bg absolute inset-0 w-full h-full"></div>
+    <div id="heroSpotlight"></div>
+    <div id="heroParticles" class="absolute inset-0 overflow-hidden"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#090909]"></div>
     <div class="relative z-10 text-center px-6 pt-24">
       <h1 class="heading text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter gold break-words">ВЛАДИСЛАВ ЦОЙ</h1>
@@ -91,45 +167,87 @@
         <a href="#contacts" onclick="scrollToSection(event)" class="px-8 sm:px-10 py-4 sm:py-5 bg-white text-black font-semibold rounded-2xl hover:bg-[#C89B4A] hover:text-white transition text-base sm:text-lg">Расскажите о своём событии</a>
       </div>
     </div>
-    <div class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-[#C89B4A]">
+    <div class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-[#C89B4A] z-10">
       <span class="text-xs sm:text-sm tracking-[4px]">ЛИСТАЙТЕ</span>
       <i class="fas fa-chevron-down mt-3 sm:mt-4 animate-bounce text-xl sm:text-2xl"></i>
     </div>
   </section>
 
+  <!-- БЕГУЩАЯ СТРОКА -->
+  <div class="marquee-wrap bg-black border-y border-white/10 py-3">
+    <div class="marquee-track text-[#C89B4A]/70 text-sm sm:text-base tracking-widest font-medium">
+      <span class="px-6">ВЛАДИВОСТОК</span><span class="px-2">•</span>
+      <span class="px-6">МОСКВА</span><span class="px-2">•</span>
+      <span class="px-6">ЧИТА</span><span class="px-2">•</span>
+      <span class="px-6">ЗАБАЙКАЛЬЕ</span><span class="px-2">•</span>
+      <span class="px-6">РОССИЯ</span><span class="px-2">•</span>
+      <span class="px-6">ВЛАДИВОСТОК</span><span class="px-2">•</span>
+      <span class="px-6">МОСКВА</span><span class="px-2">•</span>
+      <span class="px-6">ЧИТА</span><span class="px-2">•</span>
+      <span class="px-6">ЗАБАЙКАЛЬЕ</span><span class="px-2">•</span>
+      <span class="px-6">РОССИЯ</span><span class="px-2">•</span>
+    </div>
+  </div>
+
   <!-- НЕ ПРОВОЖУ / СОЗДАЮ -->
   <section class="py-16 sm:py-24 md:py-32 bg-[#090909]">
-    <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="max-w-4xl mx-auto px-6 text-center reveal">
       <div class="text-[#C89B4A] text-3xl sm:text-5xl md:text-7xl font-black tracking-tighter mb-4 sm:mb-8 break-words">НЕ ПРОВОЖУ МЕРОПРИЯТИЯ</div>
       <div class="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-white break-words">СОЗДАЮ СОБЫТИЯ</div>
       <p class="text-base sm:text-xl md:text-2xl text-[#B9B9B9] mt-6 sm:mt-12 max-w-xl mx-auto">Я создаю эмоции, которые гости будут вспоминать годами.</p>
     </div>
   </section>
 
+  <!-- ЦИФРЫ -->
+  <section class="pb-16 sm:pb-24 bg-[#090909]">
+    <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-6 text-center reveal">
+      <div>
+        <div class="heading stat-num text-4xl sm:text-5xl font-black gold" data-count="10" data-suffix="+">0</div>
+        <p class="text-xs sm:text-sm text-[#B9B9B9] mt-2 tracking-wide">лет на сцене</p>
+      </div>
+      <div>
+        <div class="heading stat-num text-4xl sm:text-5xl font-black gold" data-count="150" data-suffix="+">0</div>
+        <p class="text-xs sm:text-sm text-[#B9B9B9] mt-2 tracking-wide">мероприятий</p>
+      </div>
+      <div>
+        <div class="heading stat-num text-4xl sm:text-5xl font-black gold" data-count="20" data-suffix="+">0</div>
+        <p class="text-xs sm:text-sm text-[#B9B9B9] mt-2 tracking-wide">городов</p>
+      </div>
+      <div>
+        <div class="heading stat-num text-4xl sm:text-5xl font-black gold" data-count="1" data-suffix=" млн+">0</div>
+        <p class="text-xs sm:text-sm text-[#B9B9B9] mt-2 tracking-wide">зрителей и гостей</p>
+      </div>
+    </div>
+  </section>
+
   <!-- PREIMUSHESTVA -->
   <section id="about" class="py-16 sm:py-24 bg-black">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Почему выбирают меня</h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
-          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">🎭</div>
-          <h3 class="text-xl sm:text-2xl font-semibold">Актер театра</h3>
-          <p class="text-[#C89B4A]">Государственный музыкальный театр «Забайкальские узоры»</p>
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16 reveal">Почему выбирают меня</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="tilt-card reveal lg:col-span-2 lg:row-span-1 bg-gradient-to-br from-zinc-900 to-[#15110F] p-6 sm:p-10 rounded-3xl border border-white/5 hover:border-[#C89B4A]/40 flex flex-col sm:flex-row sm:items-center gap-6">
+          <div class="icon-badge"><i class="fas fa-masks-theater"></i></div>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-semibold">Актёр театра</h3>
+            <p class="text-[#C89B4A] mt-1">Государственный музыкальный театр «Забайкальские узоры»</p>
+          </div>
         </div>
-        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
-          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">🎤</div>
+        <div class="tilt-card reveal bg-gradient-to-br from-zinc-900 to-[#15110F] p-6 sm:p-10 rounded-3xl border border-white/5 hover:border-[#C89B4A]/40">
+          <div class="icon-badge mb-5"><i class="fas fa-microphone-lines"></i></div>
           <h3 class="text-xl sm:text-2xl font-semibold">Импровизация</h3>
-          <p>Более 10 лет живого общения без шаблонов</p>
+          <p class="text-[#B9B9B9] mt-1">Более 10 лет живого общения без шаблонов</p>
         </div>
-        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
-          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">🎬</div>
+        <div class="tilt-card reveal bg-gradient-to-br from-zinc-900 to-[#15110F] p-6 sm:p-10 rounded-3xl border border-white/5 hover:border-[#C89B4A]/40">
+          <div class="icon-badge mb-5"><i class="fas fa-clapperboard"></i></div>
           <h3 class="text-xl sm:text-2xl font-semibold">Режиссура</h3>
-          <p>От идеи до финального аккорда</p>
+          <p class="text-[#B9B9B9] mt-1">От идеи до финального аккорда</p>
         </div>
-        <div class="bg-zinc-900 p-6 sm:p-10 rounded-3xl">
-          <div class="text-4xl sm:text-5xl mb-4 sm:mb-6">📹</div>
-          <h3 class="text-xl sm:text-2xl font-semibold">Медиаконтент</h3>
-          <p>Самостоятельно создаю визуальный контент федерального уровня</p>
+        <div class="tilt-card reveal lg:col-span-2 bg-gradient-to-br from-zinc-900 to-[#15110F] p-6 sm:p-10 rounded-3xl border border-white/5 hover:border-[#C89B4A]/40 flex flex-col sm:flex-row sm:items-center gap-6">
+          <div class="icon-badge"><i class="fas fa-video"></i></div>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-semibold">Медиаконтент</h3>
+            <p class="text-[#B9B9B9] mt-1">Самостоятельно создаю визуальный контент федерального уровня</p>
+          </div>
         </div>
       </div>
     </div>
@@ -138,19 +256,19 @@
   <!-- EDUCATION TIMELINE -->
   <section class="py-16 sm:py-24 bg-[#090909]">
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Образование</h2>
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16 reveal">Образование</h2>
       <div class="space-y-10 sm:space-y-16">
-        <div class="flex gap-4 sm:gap-8 border-l-2 border-[#C89B4A]/40 pl-4 sm:border-0 sm:pl-0">
-          <div>
-            <h3 class="text-lg sm:text-2xl">Забайкальское краевое училище культуры</h3>
-            <p class="text-sm sm:text-base text-[#B9B9B9]">Народное художественное творчество • Театральное творчество</p>
-          </div>
+        <div class="relative reveal pl-6 sm:pl-10">
+          <div class="timeline-line"></div>
+          <div class="timeline-dot"></div>
+          <h3 class="text-lg sm:text-2xl">Забайкальское краевое училище культуры</h3>
+          <p class="text-sm sm:text-base text-[#B9B9B9]">Народное художественное творчество • Театральное творчество</p>
         </div>
-        <div class="flex gap-4 sm:gap-8 border-l-2 border-[#C89B4A]/40 pl-4 sm:border-0 sm:pl-0">
-          <div>
-            <h3 class="text-lg sm:text-2xl">Восточно-Сибирский государственный институт культуры и искусств</h3>
-            <p class="text-sm sm:text-base text-[#B9B9B9]">Режиссура театрализованных представлений и праздников</p>
-          </div>
+        <div class="relative reveal pl-6 sm:pl-10">
+          <div class="timeline-line"></div>
+          <div class="timeline-dot"></div>
+          <h3 class="text-lg sm:text-2xl">Восточно-Сибирский государственный институт культуры и искусств</h3>
+          <p class="text-sm sm:text-base text-[#B9B9B9]">Режиссура театрализованных представлений и праздников</p>
         </div>
       </div>
     </div>
@@ -159,34 +277,38 @@
   <!-- PROJECTS -->
   <section id="projects" class="py-16 sm:py-24 bg-black">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Мои проекты</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
-        <div class="group cursor-pointer" onclick="openProjectModal(0)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo9.jpg" alt="Восточно-экономический форум, Владивосток" loading="lazy" class="w-full rounded-3xl">
-          <div class="mt-4 sm:mt-6">
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16 reveal">Мои проекты</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        <div class="tilt-card reveal group cursor-pointer relative rounded-3xl overflow-hidden aspect-[4/3]" onclick="openProjectModal(0)">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo9.jpg" alt="Восточно-экономический форум, Владивосток" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
             <div class="text-[#C89B4A] text-sm">ВЭФ</div>
             <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Восточно-экономический форум</h3>
             <p class="text-[#B9B9B9]">Владивосток</p>
           </div>
         </div>
-        <div class="group cursor-pointer" onclick="openProjectModal(1)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo10.jpg" alt="Международная выставка-форум «Россия»" loading="lazy" class="w-full rounded-3xl">
-          <div class="mt-4 sm:mt-6">
+        <div class="tilt-card reveal group cursor-pointer relative rounded-3xl overflow-hidden aspect-[4/3]" onclick="openProjectModal(1)">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo10.jpg" alt="Международная выставка-форум «Россия»" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
             <div class="text-[#C89B4A] text-sm">Российский проект</div>
             <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Международная выставка-форум</h3>
             <p class="text-[#B9B9B9]">«Россия»</p>
           </div>
         </div>
-        <div class="group cursor-pointer" onclick="openProjectModal(2)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo11.jpg" alt="День металлурга, «Удоканская медь»" loading="lazy" class="w-full rounded-3xl">
-          <div class="mt-4 sm:mt-6">
+        <div class="tilt-card reveal group cursor-pointer relative rounded-3xl overflow-hidden aspect-[4/3]" onclick="openProjectModal(2)">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo11.jpg" alt="День металлурга, «Удоканская медь»" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
             <div class="text-[#C89B4A] text-sm">День металлурга</div>
             <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">«Удоканская медь»</h3>
           </div>
         </div>
-        <div class="group cursor-pointer" onclick="openProjectModal(3)">
-          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo12.jpg" alt="Забайкальский международный кинофестиваль" loading="lazy" class="w-full rounded-3xl">
-          <div class="mt-4 sm:mt-6">
+        <div class="tilt-card reveal group cursor-pointer relative rounded-3xl overflow-hidden aspect-[4/3]" onclick="openProjectModal(3)">
+          <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo12.jpg" alt="Забайкальский международный кинофестиваль" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
             <div class="text-[#C89B4A] text-sm">Культурный проект</div>
             <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Забайкальский международный кинофестиваль</h3>
           </div>
@@ -197,7 +319,7 @@
   <!-- НОВЫЙ БЛОК ПРОЕКТОВ (только текст) -->
 <section id="projects-text" class="py-16 sm:py-24 bg-[#090909]">
   <div class="max-w-4xl mx-auto px-6 space-y-8 sm:space-y-12">
-    <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-2">Проекты</h2>
+    <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-2 reveal">Проекты</h2>
 
      <div>
         <div class="text-[#C89B4A] text-sm font-medium tracking-widest mb-3">2021–2025</div>
@@ -233,47 +355,47 @@
         <p class="text-sm sm:text-base md:text-xl text-[#B9B9B9] leading-relaxed">Чита • Детский культурный форум</p>
       </div>
     </div>
-  </div>
 </section>
 
 <!-- ГАЛЕРЕЯ -->
-<section id="gallery" class="py-16 sm:py-24 bg-[#090909]">
+<section id="gallery" class="py-16 sm:py-24 bg-[#090909] overflow-hidden">
   <div class="max-w-7xl mx-auto px-6">
-    <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Галерея</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo1.jpg"
-           alt="Фото с мероприятия 1" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+    <div class="flex items-end justify-between mb-8 sm:mb-12 reveal">
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold">Галерея</h2>
+      <div class="hidden sm:flex gap-3">
+        <button onclick="scrollGallery(-1)" aria-label="Назад" class="icon-badge hover:bg-[#C89B4A]/10 transition"><i class="fas fa-arrow-left"></i></button>
+        <button onclick="scrollGallery(1)" aria-label="Вперёд" class="icon-badge hover:bg-[#C89B4A]/10 transition"><i class="fas fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 reveal">
+    <div id="galleryTrack" class="gallery-track flex gap-3 sm:gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-2 cursor-grab active:cursor-grabbing">
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo1.jpg" alt="Фото с мероприятия 1" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(0)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo2.jpg"
-           alt="Фото с мероприятия 2" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo2.jpg" alt="Фото с мероприятия 2" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(1)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo3.jpg"
-           alt="Фото с мероприятия 3" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo3.jpg" alt="Фото с мероприятия 3" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(2)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo4.jpg"
-           alt="Фото с мероприятия 4" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo4.jpg" alt="Фото с мероприятия 4" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(3)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo5.jpg"
-           alt="Фото с мероприятия 5" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo5.jpg" alt="Фото с мероприятия 5" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(4)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo6.jpg"
-           alt="Фото с мероприятия 6" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo6.jpg" alt="Фото с мероприятия 6" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(5)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo7.jpg"
-           alt="Фото с мероприятия 7" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo7.jpg" alt="Фото с мероприятия 7" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(6)">
-      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo8.jpg"
-           alt="Фото с мероприятия 8" loading="lazy"
-           class="rounded-2xl sm:rounded-3xl cursor-pointer hover:scale-105 transition aspect-square object-cover w-full"
+      <img src="https://github.com/JosefThor/Tsoy_vedu/raw/main/Photo8.jpg" alt="Фото с мероприятия 8" loading="lazy"
+           class="gallery-item rounded-2xl cursor-pointer hover:scale-[1.02] transition shrink-0 w-[62%] sm:w-[32%] lg:w-[23%] aspect-square object-cover"
            onclick="openGalleryModal(7)">
     </div>
+    <p class="text-center text-xs text-[#B9B9B9] mt-4 sm:hidden">← Листайте фото →</p>
   </div>
 </section>
   
@@ -289,32 +411,49 @@
 
   <!-- ОТЗЫВЫ -->
   <section class="py-16 sm:py-24 bg-[#090909]">
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 sm:mb-16">Отзывы</h2>
-      <div class="space-y-8 sm:space-y-12">
-        <div>
+    <div class="max-w-3xl mx-auto px-6 text-center reveal">
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold mb-10 sm:mb-16">Отзывы</h2>
+      <div id="testiWrap" class="relative min-h-[9rem] sm:min-h-[11rem]">
+        <i class="fas fa-quote-left text-[#C89B4A]/30 text-3xl sm:text-4xl mb-4 sm:mb-6 block"></i>
+        <div class="testi-slide active">
           <p class="text-xl sm:text-2xl md:text-4xl leading-snug sm:leading-tight">«Мы даже не заметили, как прошло пять часов.»</p>
           <p class="mt-4 sm:mt-8 text-[#C89B4A]">— Организатор свадьбы, Москва</p>
         </div>
-        <div>
+        <div class="testi-slide">
           <p class="text-xl sm:text-2xl md:text-4xl leading-snug sm:leading-tight">«Гости спрашивали, где мы нашли такого ведущего.»</p>
           <p class="mt-4 sm:mt-8 text-[#C89B4A]">— Организатор фестиваля, Владивосток</p>
         </div>
+      </div>
+      <div id="testiDots" class="flex justify-center gap-2 mt-8 sm:mt-10">
+        <button class="testi-dot active" onclick="goToTesti(0)" aria-label="Отзыв 1"></button>
+        <button class="testi-dot" onclick="goToTesti(1)" aria-label="Отзыв 2"></button>
       </div>
     </div>
   </section>
 
   <!-- ФОРМАТЫ + ЗАКЛЮЧЕНИЕ -->
   <section class="py-16 sm:py-24 bg-black">
-    <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="max-w-4xl mx-auto px-6 text-center reveal">
       <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold mb-10 sm:mb-12">Форматы мероприятий</h2>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 text-left text-sm sm:text-base">
-        <div>🎊 Свадьбы и юбилеи</div>
-        <div>🎤 Корпоративы и форумы</div>
-        <div>🎓 Государственные мероприятия</div>
-        <div>🌍 Международные проекты</div>
-        <div>🎭 Фестивали и церемонии</div>
-        <div>📹 Премии и благотворительные акции</div>
+      <div class="flex flex-wrap justify-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 hover:border-[#C89B4A]/50 transition text-sm sm:text-base">
+          <i class="fas fa-ring text-[#C89B4A]"></i> Свадьбы и юбилеи
+        </div>
+        <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 hover:border-[#C89B4A]/50 transition text-sm sm:text-base">
+          <i class="fas fa-people-group text-[#C89B4A]"></i> Корпоративы и форумы
+        </div>
+        <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 hover:border-[#C89B4A]/50 transition text-sm sm:text-base">
+          <i class="fas fa-landmark text-[#C89B4A]"></i> Государственные мероприятия
+        </div>
+        <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 hover:border-[#C89B4A]/50 transition text-sm sm:text-base">
+          <i class="fas fa-earth-europe text-[#C89B4A]"></i> Международные проекты
+        </div>
+        <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 hover:border-[#C89B4A]/50 transition text-sm sm:text-base">
+          <i class="fas fa-masks-theater text-[#C89B4A]"></i> Фестивали и церемонии
+        </div>
+        <div class="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 hover:border-[#C89B4A]/50 transition text-sm sm:text-base">
+          <i class="fas fa-trophy text-[#C89B4A]"></i> Премии и благотворительные акции
+        </div>
       </div>
       <a href="#contacts" onclick="scrollToSection(event)" class="mt-10 sm:mt-16 inline-block px-8 sm:px-12 py-4 sm:py-6 bg-[#C89B4A] text-black text-base sm:text-xl font-semibold rounded-2xl hover:bg-amber-300 transition">Ваше событие начинается с первого разговора</a>
     </div>
@@ -323,7 +462,7 @@
   <!-- CONTACTS -->
   <section id="contacts" class="py-16 sm:py-24 bg-[#090909]">
     <div class="max-w-2xl mx-auto px-6 text-center">
-      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12">Связаться</h2>
+      <h2 class="heading text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 reveal">Связаться</h2>
       <div class="flex flex-col gap-6 sm:gap-8">
         <a href="tel:+79962801250" class="flex items-center justify-center gap-4 sm:gap-6 text-lg sm:text-2xl md:text-3xl hover:text-[#C89B4A] transition">
           <i class="fas fa-phone text-2xl sm:text-4xl md:text-5xl"></i>
@@ -334,9 +473,9 @@
           <span>josoef-thor@ya.ru</span>
         </a>
         <div class="flex justify-center gap-8 sm:gap-12 text-3xl sm:text-4xl mt-8 sm:mt-12">
-          <a href="https://t.me/Animator_Tsoy" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-          <a href="https://vk.com/josefthor" target="_blank" rel="noopener" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
-          <a href="https://max.ru/u/f9LHodD0cOKZNBYb6C-Kw8FCYyU_z-gVoROVk88AIc-MSwJ8PGdmxF7IKd4" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://t.me/ваш_ник" target="_blank" rel="noopener" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+          <a href="https://vk.com/ваш_профиль" target="_blank" rel="noopener" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
+          <a href="https://wa.me/79962801250" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
     </div>
@@ -350,7 +489,7 @@
   <!-- PROJECT MODAL -->
   <div id="projectModal" class="hidden fixed inset-0 bg-black/90 z-[999] flex items-center justify-center p-4" onclick="if(event.target===this) closeModals()">
     <div class="relative bg-[#090909] p-6 sm:p-10 rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-      <button onclick="closeModals()" aria-label="Закрыть" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-2xl sm:text-4xl leading-none">✕</button>
+      <button onclick="closeModals()" aria-label="Закрыть" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-2xl sm:text-4xl leading-none"><i class="fas fa-xmark"></i></button>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -358,7 +497,7 @@
   <!-- GALLERY MODAL -->
   <div id="galleryModal" class="hidden fixed inset-0 bg-black/95 z-[999] flex items-center justify-center p-4" onclick="if(event.target===this) closeModals()">
     <div class="relative w-full max-w-4xl max-h-[90vh] flex items-center justify-center">
-      <button onclick="closeModals()" aria-label="Закрыть" class="absolute -top-2 right-0 sm:top-0 sm:right-0 text-3xl sm:text-4xl text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center">✕</button>
+      <button onclick="closeModals()" aria-label="Закрыть" class="absolute -top-2 right-0 sm:top-0 sm:right-0 text-3xl sm:text-4xl text-white z-10 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center"><i class="fas fa-xmark"></i></button>
       <button onclick="changeGalleryImage(-1)" aria-label="Предыдущее фото" class="absolute left-0 sm:-left-16 text-2xl sm:text-4xl text-white bg-black/50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center">
         <i class="fas fa-chevron-left"></i>
       </button>
@@ -380,9 +519,14 @@
 
     window.addEventListener('load', () => {
       setTimeout(() => {
-        document.getElementById('preloader').style.opacity = '0';
-        setTimeout(() => document.getElementById('preloader').style.display = 'none', 600);
-      }, 1200);
+        document.body.classList.add('curtain-open');
+        document.getElementById('curtainLeft').style.transform = 'translateX(-100%)';
+        document.getElementById('curtainRight').style.transform = 'translateX(100%)';
+        const pc = document.getElementById('preloaderContent');
+        pc.style.opacity = '0';
+        pc.style.transform = 'scale(0.92)';
+        setTimeout(() => document.getElementById('preloader').style.display = 'none', 1000);
+      }, 1100);
     });
 
     // --- мобильное меню ---
@@ -449,6 +593,116 @@
         if (e.key === 'ArrowLeft') changeGalleryImage(-1);
       }
     });
+
+    // --- свечение курсора в hero ---
+    const heroSection = document.getElementById('hero');
+    const heroSpotlight = document.getElementById('heroSpotlight');
+    if (heroSection && heroSpotlight && window.matchMedia('(hover: hover)').matches) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        heroSpotlight.style.setProperty('--x', x + '%');
+        heroSpotlight.style.setProperty('--y', y + '%');
+      });
+    }
+
+    // --- летающие частицы в hero ---
+    (function initParticles() {
+      const wrap = document.getElementById('heroParticles');
+      if (!wrap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const count = window.innerWidth < 640 ? 12 : 22;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = 2 + Math.random() * 4;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+        p.style.animationDuration = (10 + Math.random() * 12) + 's';
+        p.style.animationDelay = (Math.random() * 16) + 's';
+        wrap.appendChild(p);
+      }
+    })();
+
+    // --- появление элементов при скролле ---
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // --- счётчики цифр ---
+    const statEls = document.querySelectorAll('.stat-num');
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const suffix = el.getAttribute('data-suffix') || '';
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(eased * target) + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(el);
+      });
+    }, { threshold: 0.4 });
+    statEls.forEach(el => statObserver.observe(el));
+
+    // --- карусель галереи (стрелки + перетаскивание мышью) ---
+    const galleryTrack = document.getElementById('galleryTrack');
+    function scrollGallery(dir) {
+      if (!galleryTrack) return;
+      const item = galleryTrack.querySelector('.gallery-item');
+      const step = item ? item.offsetWidth + 16 : 300;
+      galleryTrack.scrollBy({ left: dir * step * 2, behavior: 'smooth' });
+    }
+    if (galleryTrack) {
+      let isDown = false, startX, scrollLeft;
+      galleryTrack.addEventListener('pointerdown', (e) => {
+        isDown = true;
+        startX = e.pageX - galleryTrack.offsetLeft;
+        scrollLeft = galleryTrack.scrollLeft;
+      });
+      galleryTrack.addEventListener('pointerleave', () => isDown = false);
+      galleryTrack.addEventListener('pointerup', () => isDown = false);
+      galleryTrack.addEventListener('pointermove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - galleryTrack.offsetLeft;
+        galleryTrack.scrollLeft = scrollLeft - (x - startX);
+      });
+    }
+
+    // --- слайдер отзывов ---
+    const testiSlides = document.querySelectorAll('.testi-slide');
+    const testiDots = document.querySelectorAll('.testi-dot');
+    let testiIndex = 0, testiTimer;
+    function goToTesti(n) {
+      testiSlides[testiIndex].classList.remove('active');
+      testiDots[testiIndex].classList.remove('active');
+      testiIndex = n;
+      testiSlides[testiIndex].classList.add('active');
+      testiDots[testiIndex].classList.add('active');
+      resetTestiTimer();
+    }
+    function nextTesti() { goToTesti((testiIndex + 1) % testiSlides.length); }
+    function resetTestiTimer() {
+      clearInterval(testiTimer);
+      if (testiSlides.length > 1) testiTimer = setInterval(nextTesti, 6000);
+    }
+    resetTestiTimer();
   </script>
 </body>
 </html>
